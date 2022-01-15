@@ -10,14 +10,12 @@ const P5Sketch = dynamic<P5SketchProps>(
 
 function SketchPage() {
   const {
-    query: { id },
+    query: { slug },
   } = useRouter();
 
-  return (
-    <>
-      <P5Sketch id={id as string} />
-    </>
-  );
+  const path = Array.isArray(slug) ? slug.join('/') : slug;
+
+  return <P5Sketch id={path} />;
 }
 
 export default SketchPage;
