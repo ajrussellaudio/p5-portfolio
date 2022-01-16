@@ -1,4 +1,5 @@
 import { P5Instance } from 'react-p5-wrapper';
+import { SomeClass } from './SomeClass';
 
 export const sketch = (p: P5Instance) => {
   const [W, H] = [window.innerWidth - 20, window.innerHeight - 20];
@@ -6,6 +7,7 @@ export const sketch = (p: P5Instance) => {
   p.setup = () => {
     p.createCanvas(W, H);
     p.angleMode(p.RADIANS);
+    const thing = new SomeClass(6);
   };
 
   p.draw = () => {

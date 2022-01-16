@@ -1,14 +1,31 @@
-import Link from 'next/link'
+import { globby } from 'globby';
+import { InferGetServerSidePropsType } from 'next';
+import Link from 'next/link';
 
-const IndexPage = () => (
-  <>
-    <h1>Hello Next.js 👋</h1>
-    <p>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-    </p>
-  </>
-)
+function prettySketchName(path: string) {
+  return path.replace('sketches/', '').replace(/(\/index)?.ts/, '');
+}
 
-export default IndexPage
+export default function IndexPage({ paths }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  return (
+    <>
+      <h1>Hello 👋</h1>
+      <ul>
+        {paths.map(path => (
+          <li key={path}>
+            <Link href={`/${path}`}>
+              <a>{prettySketchName(path)}</a>
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <p></p>
+    </>
+  );
+}
+
+export const getServerSideProps = async () => {
+  const paths = await globby(['sketches/**/index.ts', 'sketches/*.ts']);
+
+  return { props: { paths } };
+};
